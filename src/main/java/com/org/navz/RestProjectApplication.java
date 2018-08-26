@@ -5,10 +5,14 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.org.navz.service.RestResponseService;
 
 @SpringBootApplication
+@EnableJpaRepositories(basePackages = "com.org.navz.resository")
+@EntityScan(basePackages = "com.org.navz.entity")
 public class RestProjectApplication implements CommandLineRunner{
 
 	@Autowired
