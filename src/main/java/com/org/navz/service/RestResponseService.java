@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.org.navz.RestProjectApplication;
 import com.org.navz.entity.RestTable;
-import com.org.navz.resository.RestResponseRepository;
+import com.org.navz.repository.RestResponseRepository;
 import com.org.navz.responseModel.MainResponseModel;
 
 @Service
@@ -42,7 +42,9 @@ public class RestResponseService {
 		System.out.println(mrm.getRestResponse().getResult().getAlpha3_code());
 
 		rt.setName(mrm.getRestResponse().getResult().getName());
-		/* persistenceManager.save(rt); */
+		rt.setMessages(mrm.getRestResponse().getMessages().toString());
+		rt.setAlpha2_code(mrm.getRestResponse().getResult().getAlpha2_code());
+		rt.setAlpha3_code(mrm.getRestResponse().getResult().getAlpha3_code());
 
 		restResponseRepository.save(rt);
 	}

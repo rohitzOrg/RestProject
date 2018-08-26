@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import com.org.navz.service.RestResponseService;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "com.org.navz.resository")
+@EnableJpaRepositories(basePackages = "com.org.navz.repository")
 @EntityScan(basePackages = "com.org.navz.entity")
 public class RestProjectApplication implements CommandLineRunner{
 
