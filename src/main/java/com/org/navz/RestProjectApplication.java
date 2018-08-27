@@ -26,7 +26,8 @@ public class RestProjectApplication implements CommandLineRunner{
 
 	  @Override
 	  public void run(String... args) {
-		  restResponseService.test();
+		  restResponseService.writeToDatabase();
+		  restResponseService.ReadFromDatabase();
 	  }
 	
 	

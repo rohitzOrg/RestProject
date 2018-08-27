@@ -1,7 +1,7 @@
 package com.org.navz.service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -24,7 +24,6 @@ public class RestResponseService {
 	@Autowired
 	RestResponseRepository restResponseRepository;
 
-
 	RestTemplate restTemplate = new RestTemplate();
 	MainResponseModel mrm = restTemplate.getForObject("http://services.groupkt.com/country/get/iso2code/IN",
 			MainResponseModel.class);
@@ -33,20 +32,34 @@ public class RestResponseService {
 	RestTable rt;
 
 	@Transactional
-	public void test() {
+	public void writeToDatabase() {
 
-		log.info(mrm.toString());
-		System.out.println(mrm.getRestResponse().getMessages());
-		System.out.println(mrm.getRestResponse().getResult().getName());
-		System.out.println(mrm.getRestResponse().getResult().getAlpha2_code());
-		System.out.println(mrm.getRestResponse().getResult().getAlpha3_code());
+		
+		  log.info(mrm.toString());
+		  System.out.println(mrm.getRestResponse().getMessages());
+		  System.out.println(mrm.getRestResponse().getResult().getName());
+		  System.out.println(mrm.getRestResponse().getResult().getAlpha2_code());
+		  System.out.println(mrm.getRestResponse().getResult().getAlpha3_code());
+		  
+		  rt.setName(mrm.getRestResponse().getResult().getName());
+		  rt.setMessages(mrm.getRestResponse().getMessages().toString());
+		  rt.setAlpha2_code(mrm.getRestResponse().getResult().getAlpha2_code());
+		  rt.setAlpha3_code(mrm.getRestResponse().getResult().getAlpha3_code());
+		  
+		  restResponseRepository.save(rt);
+		 
 
-		rt.setName(mrm.getRestResponse().getResult().getName());
-		rt.setMessages(mrm.getRestResponse().getMessages().toString());
-		rt.setAlpha2_code(mrm.getRestResponse().getResult().getAlpha2_code());
-		rt.setAlpha3_code(mrm.getRestResponse().getResult().getAlpha3_code());
+	}
 
-		restResponseRepository.save(rt);
+	public void ReadFromDatabase() {
+		List<RestTable> listOfObjects = restResponseRepository.findAll();
+
+		//listOfObjects.stream().forEach(System.out::println);
+		
+		  for(RestTable rt : listOfObjects) {
+		  System.out.println(rt.getId()+" "+rt.getMessages()+" "+rt.getName()+" "+rt.
+		  getAlpha2_code()+" "+rt.getAlpha3_code()+" "); }
+		 
 	}
 
 }
