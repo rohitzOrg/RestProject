@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -50,16 +51,24 @@ public class RestResponseService {
 		 
 
 	}
-
+	
+	@Scheduled(fixedRate=5000)
 	public void ReadFromDatabase() {
 		List<RestTable> listOfObjects = restResponseRepository.findAll();
 
 		//listOfObjects.stream().forEach(System.out::println);
 		
-		  for(RestTable rt : listOfObjects) {
+		 /* for(RestTable rt : listOfObjects) {
 		  System.out.println(rt.getId()+" "+rt.getMessages()+" "+rt.getName()+" "+rt.
-		  getAlpha2_code()+" "+rt.getAlpha3_code()+" "); }
+		  getAlpha2_code()+" "+rt.getAlpha3_code()+" "); }*/
 		 
+		  	restResponseRepository.findById(16L)
+		  	.ifPresent(message -> {
+				log.info("Country found with findById(16L):");
+				log.info("--------------------------------");
+				log.info(message.getMessages());
+				log.info("");
+			});
 	}
 
 }

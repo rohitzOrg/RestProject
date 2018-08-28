@@ -7,10 +7,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import com.org.navz.service.RestResponseService;
 
 @SpringBootApplication
+@EnableScheduling
 @EnableJpaRepositories(basePackages = "com.org.navz.repository")
 @EntityScan(basePackages = "com.org.navz.entity")
 public class RestProjectApplication implements CommandLineRunner{
@@ -26,7 +29,7 @@ public class RestProjectApplication implements CommandLineRunner{
 
 	  @Override
 	  public void run(String... args) {
-		  restResponseService.writeToDatabase();
+		 // restResponseService.writeToDatabase();
 		  restResponseService.ReadFromDatabase();
 	  }
 	
