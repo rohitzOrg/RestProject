@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.org.navz.entity.RestTable;
-
-
+import com.org.navz.entity.RestResponseTable;
 
 @Repository
-@Qualifier(value = "restResponseRepository")
-public interface RestResponseRepository extends JpaRepository<RestTable, Long>{
-//for RestTable 
+@Qualifier(value = "restResponseTableRepository")
+public interface RestResponseTableRepository extends JpaRepository<RestResponseTable, Long>{
+// for RestResponseTable
 }

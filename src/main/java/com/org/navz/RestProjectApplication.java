@@ -1,5 +1,7 @@
 package com.org.navz;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
@@ -8,8 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
+import com.org.navz.entity.RestTable;
 import com.org.navz.service.RestResponseService;
 
 @SpringBootApplication
@@ -29,8 +31,11 @@ public class RestProjectApplication implements CommandLineRunner{
 
 	  @Override
 	  public void run(String... args) {
-		 // restResponseService.writeToDatabase();
-		  restResponseService.ReadFromDatabase();
+		  //restResponseService.writeToDatabase();
+		  //restResponseService.ReadFromDatabase();
+		  restResponseService.readingRelationships();
+/*		  List<RestTable> list = restResponseService.findAll();
+		  list.stream().map(i->i.getMessages()).forEach(System.out::println);*/
 	  }
 	
 	

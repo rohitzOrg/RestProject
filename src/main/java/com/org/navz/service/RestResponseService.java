@@ -2,17 +2,24 @@ package com.org.navz.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.org.navz.RestProjectApplication;
+import com.org.navz.entity.MainResponseTable;
+import com.org.navz.entity.RestResponseTable;
 import com.org.navz.entity.RestTable;
+import com.org.navz.repository.MainResponseTableRepository;
 import com.org.navz.repository.RestResponseRepository;
 import com.org.navz.responseModel.MainResponseModel;
 
@@ -24,6 +31,9 @@ public class RestResponseService {
 
 	@Autowired
 	RestResponseRepository restResponseRepository;
+	
+	@Autowired
+	MainResponseTableRepository mainResponseTableRepository;
 
 	RestTemplate restTemplate = new RestTemplate();
 	MainResponseModel mrm = restTemplate.getForObject("http://services.groupkt.com/country/get/iso2code/IN",
@@ -31,6 +41,12 @@ public class RestResponseService {
 
 	@Autowired
 	RestTable rt;
+	
+	@Autowired
+	MainResponseTable mrt;
+	
+	@Autowired
+	RestResponseTable rrt;
 
 	@Transactional
 	public void writeToDatabase() {
@@ -70,5 +86,23 @@ public class RestResponseService {
 				log.info("");
 			});
 	}
+	
+	public void readingRelationships() {
+		rrt.setMessages(mrm.getRestResponse().getMessages().toString());
+		mrt.addRestResponse(rrt);
+		rrt.setMainResponseTable(mrt);
+		mainResponseTableRepository.save(mrt);
+		
+	}
+	
 
+	/*@PersistenceContext
+	EntityManager em;
+	
+	@Transactional
+	public List<RestTable> findAll() {
+		Query query = em.createNamedQuery(
+				"select * from [RestServices].[dbo].[rest_table]", RestTable.class);
+		return query.getResultList();
+	}*/
 }
